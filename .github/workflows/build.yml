@@ -4,7 +4,8 @@ name: Build DeSCinematicEngine
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,10 +21,10 @@ jobs:
           distribution: temurin
           java-version: '25'
 
-      - name: Extract source ZIP
+      - name: Extract fixed source ZIP
         run: |
           mkdir -p source
-          unzip -q DeSCinematicEngine-slice6.zip -d source
+          unzip -q DeSCinematicEngine-slice6-FIXED.zip -d source
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -31,8 +32,7 @@ jobs:
           gradle-version: '9.2.1'
 
       - name: Build plugin
-        run: |
-          gradle -p source/DeSCinematicEngine clean build
+        run: gradle -p source/DeSCinematicEngine clean build
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
